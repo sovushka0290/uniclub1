@@ -1,95 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uniclub | Музыкальное образование нового поколения</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
-    <nav>
-        <div class="container nav-content">
-            <div class="logo">
-                <i data-lucide="music" style="width: 18px;"></i> UNICLUB
-            </div>
-            <div class="nav-links">
-                <a href="#courses">Курсы</a>
-                <a href="#practice">Практика</a>
-                <a href="#platform">Платформа</a>
-            </div>
-            <button class="btn btn-primary">Личный кабинет</button>
-        </div>
-    </nav>
-
-    <main class="container">
-        <section class="hero">
-            <div class="reveal">
-                <h1>Uniclub: Музыка и <br>Google AI Studio.</h1>
-                <p>Единая экосистема обучения, рожденная в синергии творчества и технологий ИИ.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button class="btn btn-primary">Начать обучение</button>
-                    <button class="btn btn-secondary">О проекте</button>
-                </div>
-            </div>
-            
-            <div class="preview-container reveal">
-                <img src="assets/dashboard-preview.png" alt="Dashboard Preview">
-            </div>
-        </section>
-
-        <section id="courses">
-            <span class="section-label">Образование</span>
-            <h2 style="font-size: 2rem; margin-bottom: 3rem;">Направления обучения</h2>
-            <div class="grid">
-                <div class="card reveal">
-                    <h3>Фортепиано</h3>
-                    <p>Индивидуальные программы от классики до современных композиций. Онлайн-уроки с обратной связью.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Теория и Гармония</h3>
-                    <p>Понятный и структурированный курс по основам музыки, композиции и аранжировке.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Музыкальный софт</h3>
-                    <p>Обучение работе в современных DAW (Ableton, Logic) и продакшну с нуля.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="practice">
-            <div class="piano-section reveal">
-                <span class="section-label">Интерактив</span>
-                <h2 style="font-size: 2rem;">Тренажер практике</h2>
-                <div class="piano">
-                    <div class="key" data-note="C4"></div>
-                    <div class="key black" data-note="C#4"></div>
-                    <div class="key" data-note="D4"></div>
-                    <div class="key black" data-note="D#4"></div>
-                    <div class="key" data-note="E4"></div>
-                    <div class="key" data-note="F4"></div>
-                    <div class="key black" data-note="F#4"></div>
-                    <div class="key" data-note="G4"></div>
-                    <div class="key black" data-note="G#4"></div>
-                    <div class="key" data-note="A4"></div>
-                    <div class="key black" data-note="A#4"></div>
-                    <div class="key" data-note="B4"></div>
-                    <div class="key" data-note="C5"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <p>&copy; 2026 Uniclub Music Ecosystem</p>
-            <div style="display: flex; gap: 2rem;">
-                <a href="#" style="color: var(--secondary); text-decoration: none;">GitHub</a>
-                <a href="#" style="color: var(--secondary); text-decoration: none;">Privacy</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="main.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UNICLUB Music School</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
+

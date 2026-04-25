@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Student profile linked to Telegram",
+      "type": "object",
+      "properties": {
+        "telegramId": { "type": "string", "description": "Primary identifier from Telegram" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "username": { "type": "string" },
+        "enrolledCourses": { "type": "array", "items": { "type": "string" }, "description": "List of course IDs purchased" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["telegramId", "firstName"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "Online music course details",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "thumbnail": { "type": "string" },
+        "instructor": { "type": "string" },
+        "lessons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "videoUrl": { "type": "string" },
+              "duration": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and course enrollments"
+    },
+    "/courses/{courseId}": {
+      "schema": "Course",
+      "description": "Available music courses"
+    }
+  }
+}
