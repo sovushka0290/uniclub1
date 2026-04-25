@@ -1,69 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uniclub Music Ecosystem | Premium Education</title>
-    <meta name="description" content="Innovative online ecosystem for music schools. Learn piano, vocal, and theory with the best mentors.">
+    <title>Uniclub Music | Инновации в музыкальном образовании</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <div class="grid-bg"></div>
     <div class="blob"></div>
     
     <nav>
-        <div class="logo">UNICLUB MUSIC</div>
+        <div class="logo">
+            <i data-lucide="music"></i> UNICLUB
+        </div>
         <div class="nav-links">
             <a href="#courses">Курсы</a>
-            <a href="#platform">Платформа</a>
-            <a href="#about">О школе</a>
+            <a href="#piano">Практика</a>
+            <a href="#platform">Директору</a>
+            <a href="#contact">Контакты</a>
         </div>
-        <button class="btn-primary">Войти</button>
+        <button class="btn-primary">Личный кабинет</button>
     </nav>
 
     <main>
         <section class="hero">
-            <div class="hero-content">
-                <h1>Будущее музыкального образования</h1>
-                <p>Единая экосистема для обучения, практики и менторства. Создайте свою музыку вместе с лучшими преподавателями мира.</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-primary">Начать обучение</button>
-                    <button class="btn-primary" style="background: transparent; border: 1px solid var(--glass-border);">Демонстрация</button>
+            <div class="hero-content reveal">
+                <span class="badge">Next Generation MVP</span>
+                <h1>Учитесь музыке <span>по-новому</span></h1>
+                <p>Единая экосистема для музыкальных школ. Мы объединили лучшие методики обучения с передовыми технологиями AI.</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <button class="btn-primary">Попробовать бесплатно</button>
+                    <button class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">Смотреть видео</button>
                 </div>
             </div>
-            <div class="hero-visual"></div>
+            <div class="dashboard-preview reveal">
+                <img src="assets/dashboard-preview.png" alt="Dashboard Preview">
+            </div>
+        </section>
+
+        <section id="piano" class="reveal">
+            <div class="piano-wrapper">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Интерактивный тренажер</h2>
+                <p style="color: var(--text-dim);">Попробуйте наш виртуальный инструмент прямо сейчас</p>
+                <div class="piano">
+                    <!-- JavaScript will populate or we can hardcode some keys -->
+                    <div class="key" data-note="C4"></div>
+                    <div class="key black" data-note="C#4"></div>
+                    <div class="key" data-note="D4"></div>
+                    <div class="key black" data-note="D#4"></div>
+                    <div class="key" data-note="E4"></div>
+                    <div class="key" data-note="F4"></div>
+                    <div class="key black" data-note="F#4"></div>
+                    <div class="key" data-note="G4"></div>
+                    <div class="key black" data-note="G#4"></div>
+                    <div class="key" data-note="A4"></div>
+                    <div class="key black" data-note="A#4"></div>
+                    <div class="key" data-note="B4"></div>
+                    <div class="key" data-note="C5"></div>
+                </div>
+            </div>
         </section>
 
         <section id="courses">
-            <h2 class="section-title">Направления обучения</h2>
+            <h2 class="section-title reveal">Премиальные курсы</h2>
             <div class="grid">
-                <div class="card">
-                    <div class="card-icon">🎹</div>
-                    <h3>Фортепиано</h3>
-                    <p>От классики до современного джаза. Индивидуальные онлайн-сессии с профессорами консерваторий.</p>
+                <div class="card reveal">
+                    <div class="card-icon"><i data-lucide="layers"></i></div>
+                    <h3>Теория Музыки</h3>
+                    <p>Интерактивные уроки, которые делают теорию простой и увлекательной. От основ гармонии до композиции.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">🎤</div>
-                    <h3>Вокал</h3>
-                    <p>Постановка дыхания и раскрытие голоса через уникальные методики онлайн-тренировок.</p>
+                <div class="card reveal">
+                    <div class="card-icon"><i data-lucide="mic"></i></div>
+                    <h3>Эстрадный Вокал</h3>
+                    <p>Работа над техникой, тембром и подачей. Персональный фидбек от топовых наставников.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">🎸</div>
-                    <h3>Гитара</h3>
-                    <p>Мастер-классы от виртуозов. Интерактивные табы и авто-проверка домашних заданий.</p>
+                <div class="card reveal">
+                    <div class="card-icon"><i data-lucide="cpu"></i></div>
+                    <h3>Музыкальный Prod</h3>
+                    <p>Создание музыки в DAW, сведение и мастеринг. Путь от идеи до готового трека.</p>
                 </div>
             </div>
         </section>
 
-        <section id="platform">
-            <h2 class="section-title">Экосистема для Директора</h2>
-            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
-                <div class="card">
-                    <h3>Онлайн-курсы</h3>
-                    <p>Создавайте и продавайте собственные курсы. Удобный конструктор уроков с поддержкой видео высокого качества.</p>
-                </div>
-                <div class="card">
-                    <h3>Аналитика и Управление</h3>
-                    <p>Полный контроль над успеваемостью учеников и занятостью преподавателей в один клик.</p>
+        <section id="platform" style="background: radial-gradient(circle at top, rgba(99, 102, 241, 0.1), transparent 70%); border-radius: 60px; padding: 6rem 5%;">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;" class="reveal">
+                <i data-lucide="settings" style="width: 60px; height: 60px; color: var(--primary); margin-bottom: 2rem;"></i>
+                <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Инструментарий директора</h2>
+                <p style="font-size: 1.25rem; color: var(--text-dim); margin-bottom: 3rem;">
+                    Автоматизируйте управление школой. Конструктор курсов, управление расписанием и CRM-система в одном окне.
+                </p>
+                <div class="grid" style="grid-template-columns: 1fr 1fr; text-align: left;">
+                    <div class="card">
+                        <h4>CMS Курсов</h4>
+                        <p>Добавляйте видео, тесты и задания за считанные минуты.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Финансовый учет</h4>
+                        <p>Прозрачная аналитика доходов и оплат обучения.</p>
+                    </div>
                 </div>
             </div>
         </section>
