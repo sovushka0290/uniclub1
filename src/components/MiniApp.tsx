@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTelegram } from '../hooks/useTelegram';
+import CoursePlayer from './TMA/CoursePlayer';
 import { 
   Home, 
   BookOpen, 
@@ -7,15 +9,19 @@ import {
   Globe, 
   Wallet, 
   ChevronRight, 
+  ChevronLeft,
   ArrowRight,
   Star,
   Users,
   Shield,
   Search,
+  CheckCircle2,
+  Play,
   Settings,
   Music,
   Smartphone,
-  Plus
+  Plus,
+  MessageCircle
 } from 'lucide-react';
 
 const COURSES = [
@@ -72,7 +78,7 @@ const TARIFFS = [
   { name: 'ACADEMY', price: '14,900 ₸/мес', features: ['Персональный ИИ-ментор 24/7', 'Все развивающие игры', 'Эксклюзивные мастер-классы'], color: 'bg-[#e0f2ff]', featured: true },
 ];
 
-const Particle = ({ x, y, angle, color, onComplete }: { x: number, y: number, angle: number, color: string, onComplete: () => void }) => {
+const Particle = ({ x, y, angle, color, onComplete }: { x: number, y: number, angle: number, color: string, onComplete: () => void, key?: React.Key }) => {
   const distance = 25 + Math.random() * 40;
   const targetX = x + Math.cos(angle) * distance;
   const targetY = y + Math.sin(angle) * distance;
@@ -98,8 +104,13 @@ const Particle = ({ x, y, angle, color, onComplete }: { x: number, y: number, an
 };
 
 export const MiniApp = () => {
+  const { user } = useTelegram();
   const [activeTab, setActiveTab] = useState('home');
   const [selectedCourse, setSelectedCourse] = useState<typeof COURSES[0] | null>(null);
+  const [purchasedCourses, setPurchasedCourses] = useState<string[]>([]);
+  const [showCoursePath, setShowCoursePath] = useState<string | null>(null);
+  const [showMyCoursesList, setShowMyCoursesList] = useState(false);
+  const [activeLesson, setActiveLesson] = useState<boolean>(false);
   const [particles, setParticles] = useState<{ id: string; x: number; y: number; angle: number; color: string }[]>([]);
 
   const spawnParticles = (e: React.MouseEvent) => {
@@ -129,8 +140,14 @@ export const MiniApp = () => {
   const removeParticle = (id: string) => {
     setParticles(prev => prev.filter(p => p.id !== id));
   };
-  const [userProfile] = useState({
-    name: 'Арман',
+
+  const userName = user?.first_name || 'Студент';
+  const userLastName = user?.last_name || '';
+  const fullName = `${userName} ${userLastName}`.trim();
+
+  const userProfile = {
+    name: userName,
+    fullName: fullName,
     rank: 'Меломан',
     xp: 2450,
     level: 12,
@@ -147,7 +164,7 @@ export const MiniApp = () => {
       { stage: 3, title: 'Исполнитель', completed: false, active: true },
       { stage: 4, title: 'Виртуоз', completed: false },
     ]
-  });
+  };
 
   const renderProfile = () => (
     <motion.div 
@@ -158,11 +175,15 @@ export const MiniApp = () => {
       {/* Profile Header Card */}
       <div className="bg-white rounded-[2.5rem] border-b-8 border-slate-100 p-8 text-slate-800 relative overflow-hidden">
         <div className="relative z-10 flex items-center gap-6 mb-8">
-          <div className="w-24 h-24 rounded-[2rem] bg-[#58cc02] border-b-8 border-[#46a302] flex items-center justify-center text-4xl font-black italic shadow-xl text-white transform -rotate-3 transition-transform hover:rotate-0 cursor-pointer active:scale-90 active:border-b-0 group" onClick={spawnParticles}>
-            <span className="group-hover:animate-pulse">{userProfile.name[0]}</span>
+          <div className="w-24 h-24 rounded-[2rem] bg-[#58cc02] border-b-8 border-[#46a302] flex items-center justify-center text-4xl font-black italic shadow-xl text-white transform -rotate-3 transition-transform hover:rotate-0 cursor-pointer active:scale-90 active:border-b-0 group overflow-hidden" onClick={spawnParticles}>
+            {user?.photo_url ? (
+              <img src={user.photo_url} alt="profile" className="w-full h-full object-cover" />
+            ) : (
+              <span className="group-hover:animate-pulse">{userProfile.name[0]}</span>
+            )}
           </div>
           <div>
-            <h2 className="text-2xl font-display font-black leading-none mb-2 italic uppercase text-slate-800 tracking-tighter">{userProfile.name}</h2>
+            <h2 className="text-2xl font-display font-black leading-none mb-2 italic uppercase text-slate-800 tracking-tighter">{userProfile.fullName}</h2>
             <div className="flex gap-2">
               <span className="px-3 py-1 bg-indigo-50 rounded-full text-[9px] font-black uppercase tracking-widest text-indigo-500">
                 LVL {userProfile.level}
@@ -394,19 +415,172 @@ export const MiniApp = () => {
 
         <div className="flex items-center justify-between p-6 bg-slate-900 rounded-3xl text-white">
           <div>
-            <p className="text-[10px] font-black uppercase opacity-50 mb-1">Стоимость занятия</p>
-            <p className="text-xl font-display font-black">{course.price}</p>
+            <p className="text-[10px] font-black uppercase opacity-50 mb-1">
+              {purchasedCourses.includes(course.title) ? 'Разблокировано' : 'Стоимость курса'}
+            </p>
+            <p className="text-xl font-display font-black">
+              {purchasedCourses.includes(course.title) ? 'Бесплатно' : course.price}
+            </p>
           </div>
           <button 
-            onClick={spawnParticles}
-            className="bg-indigo-500 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform"
+            onClick={(e) => {
+              spawnParticles(e);
+              if (purchasedCourses.includes(course.title)) {
+                setShowCoursePath(course.title);
+              } else {
+                setPurchasedCourses(prev => [...prev, course.title]);
+                (window as any).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');
+              }
+            }}
+            className={`${purchasedCourses.includes(course.title) ? 'bg-[#58cc02]' : 'bg-indigo-500'} px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform`}
           >
-            Записаться
+            {purchasedCourses.includes(course.title) ? 'Открыть курс' : 'Купить курс'}
           </button>
         </div>
       </div>
     </motion.div>
   );
+
+  const renderMyCoursesList = () => (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-[#fcfcfd] overflow-y-auto no-scrollbar pb-32"
+    >
+      <div className="px-6 pt-8 pb-4 flex items-center gap-4 bg-white sticky top-0 z-20 border-b border-slate-50">
+        <button onClick={() => setShowMyCoursesList(false)} className="p-2 text-slate-400">
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <h2 className="flex-1 text-lg font-black text-slate-800 tracking-tight italic uppercase">Мои уроки</h2>
+      </div>
+
+      <div className="p-6 space-y-4">
+        {purchasedCourses.length > 0 ? (
+          COURSES.filter(c => purchasedCourses.includes(c.title)).map(course => (
+            <motion.div 
+              key={course.id} 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={(e) => { spawnParticles(e); setShowCoursePath(course.title); }}
+              className="bg-white border-b-8 border-slate-100 rounded-[2rem] p-6 flex items-center justify-between hover:bg-slate-50 transition-all cursor-pointer active:border-b-0 active:translate-y-2"
+            >
+              <div className="flex items-center gap-5">
+                <div className="w-16 h-16 rounded-2xl bg-[#e2f5e9] flex items-center justify-center text-[#58cc02] shadow-sm">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-black text-slate-800 leading-none mb-2 uppercase italic tracking-tighter">{course.title}</h4>
+                  <div className="flex items-center gap-3">
+                     <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-[#58cc02] w-1/3" />
+                     </div>
+                     <span className="text-[10px] font-black text-[#58cc02]">33% пройден</span>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-50 p-3 rounded-2xl text-slate-300">
+                <ArrowRight className="w-5 h-5" />
+              </div>
+            </motion.div>
+          ))
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">У вас пока нет купленных курсов</p>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+
+  const renderCoursePath = (courseTitle: string) => {
+    const course = COURSES.find(c => c.title === courseTitle);
+    if (!course) return null;
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 bg-[#fcfcfd] overflow-y-auto no-scrollbar pb-32"
+      >
+        <div className="px-6 pt-8 pb-4 flex items-center gap-4 bg-white sticky top-0 z-20 border-b border-slate-50">
+          <button onClick={() => setShowCoursePath(null)} className="p-2 text-slate-400">
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <h2 className="flex-1 text-lg font-black text-slate-800 tracking-tight italic uppercase">{courseTitle}</h2>
+          <div className="flex items-center gap-1 text-[#ffc800]">
+            <Star className="w-5 h-5 fill-current" />
+            <span className="font-black text-sm">33%</span>
+          </div>
+        </div>
+
+        <div className="relative py-12 flex flex-col items-center">
+          {/* Winding Path SVG Line */}
+          <svg className="absolute top-0 w-full h-[1200px] pointer-events-none opacity-10">
+            <path 
+              d="M 200 0 Q 350 150 200 300 T 200 600 T 200 900 T 200 1200" 
+              fill="none" 
+              stroke="#1cb0f6" 
+              strokeWidth="12" 
+              strokeLinecap="round"
+            />
+          </svg>
+
+          <div className="space-y-24 relative z-10 w-full px-12">
+            {[
+              { title: 'Введение', type: 'video', completed: true, x: '20%' },
+              { title: 'Гармония', type: 'quiz', completed: true, x: '70%', active: true },
+              { title: 'Теория I', type: 'video', completed: false, x: '30%' },
+              { title: 'Практика', type: 'video', completed: false, x: '80%' },
+              { title: 'Экзамен', type: 'quiz', completed: false, x: '40%' },
+              { title: 'ДЗ Админу', type: 'homework', completed: false, x: '50%' },
+            ].map((node, i) => (
+              <div 
+                key={i}
+                className="flex flex-col items-center gap-3"
+                style={{ marginLeft: node.x }} 
+              >
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => {
+                    if (node.type === 'homework') {
+                       window.open('https://t.me/UniClubMusicBot', '_blank');
+                    } else {
+                       setActiveLesson(true);
+                    }
+                  }}
+                  className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center relative cursor-pointer border-b-8 active:border-b-0 active:translate-y-2 transition-all ${
+                    node.completed 
+                      ? 'bg-[#58cc02] border-[#46a302] text-white shadow-[0_10px_20px_rgba(88,204,2,0.3)]' 
+                      : node.active 
+                        ? 'bg-[#1cb0f6] border-[#168ec6] text-white animate-bounce shadow-[0_10px_20px_rgba(28,176,246,0.3)]'
+                        : 'bg-white border-slate-200 text-slate-300'
+                  }`}
+                >
+                  {node.completed ? <CheckCircle2 className="w-10 h-10" /> : (
+                    node.type === 'video' ? <Play className="w-10 h-10 fill-current ml-1" /> :
+                    node.type === 'homework' ? <MessageCircle className="w-10 h-10" /> :
+                    <Zap className="w-10 h-10 fill-current" />
+                  )}
+                  
+                  {/* Lesson Number floating badge */}
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-[10px] font-black italic shadow-lg ring-4 ring-white">
+                    {i + 1}
+                  </div>
+                </motion.div>
+                <span className={`text-[11px] font-black uppercase tracking-tight italic ${node.completed || node.active ? 'text-slate-800' : 'text-slate-300'}`}>
+                  {node.title}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
 
   const renderHome = () => (
     <motion.div 
@@ -428,23 +602,30 @@ export const MiniApp = () => {
             </div>
 
             {/* Hero Mini Section */}
-            <div className="bg-[#e0f2ff] rounded-[2.5rem] p-8 border-b-8 border-[#1cb0f6] relative overflow-hidden group">
+            <div className={`rounded-[2.5rem] p-8 border-b-8 relative overflow-hidden group ${purchasedCourses.length > 0 ? 'bg-[#e2f5e9] border-[#58cc02]' : 'bg-[#e0f2ff] border-[#1cb0f6]'}`}>
               <div className="relative z-10">
-                <h2 className="text-3xl font-display font-black text-[#1cb0f6] leading-tight mb-2 italic uppercase tracking-tighter">
-                  Твой путь <br />в музыке
+                <h2 className={`text-3xl font-display font-black leading-tight mb-2 italic uppercase tracking-tighter ${purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'}`}>
+                  {purchasedCourses.length > 0 ? 'Мои\nуроки' : 'Твой путь\nв музыке'}
                 </h2>
                 <p className="text-slate-500 text-xs font-bold mb-6 max-w-[160px]">
-                  Запишись на первое пробное занятие бесплатно.
+                  {purchasedCourses.length > 0 ? 'Продолжи свое обучение сегодня!' : 'Запишись на первое пробное занятие бесплатно.'}
                 </p>
                 <button 
-                  onClick={spawnParticles}
-                  className="duo-btn-primary bg-[#1cb0f6] border-[#168ec6]"
+                  onClick={(e) => {
+                    spawnParticles(e);
+                    if (purchasedCourses.length > 0) {
+                      setShowMyCoursesList(true);
+                    } else {
+                      setActiveTab('home'); 
+                    }
+                  }}
+                  className={`duo-btn-primary bg-white border-slate-200 text-slate-800`}
                 >
-                  Записаться
+                  {purchasedCourses.length > 0 ? 'Мои уроки' : 'Записаться'}
                 </button>
               </div>
               <div className="absolute -right-4 -bottom-4 opacity-20 transform group-hover:scale-110 transition-transform duration-700">
-                <Music size={140} strokeWidth={1} className="text-white" />
+                <Music size={140} strokeWidth={1} className={purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'} />
               </div>
             </div>
 
@@ -452,8 +633,16 @@ export const MiniApp = () => {
           {[
             { icon: <BookOpen />, label: 'Курсы', color: 'bg-[#e0f2ff]', border: 'border-[#1cb0f6]', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('home') },
             { icon: <Users />, label: 'Учителя', color: 'bg-[#f3e8ff]', border: 'border-[#ce82ff]', iconColor: 'text-[#ce82ff]', action: () => { spawnParticles({ currentTarget: document.body } as any); } },
+            { icon: <MessageCircle />, label: 'Чат-бот', color: 'bg-[#e2f5e9]', border: 'border-[#58cc02]', iconColor: 'text-[#58cc02]', action: () => { 
+                const tg = (window as any).Telegram?.WebApp;
+                if (tg) {
+                  tg.openTelegramLink('https://t.me/UniClubMusicBot');
+                } else {
+                  window.open('https://t.me/UniClubMusicBot', '_blank');
+                }
+              } 
+            },
             { icon: <Zap />, label: 'Тарифы', color: 'bg-white', border: 'border-slate-200', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('tariffs') },
-            { icon: <Globe />, label: 'О школе', color: 'bg-white', border: 'border-slate-200', iconColor: 'text-[#ce82ff]', action: () => setActiveTab('ecosystem') },
           ].map((item, i) => (
             <div 
               key={i} 
@@ -466,7 +655,7 @@ export const MiniApp = () => {
           ))}
         </div>
 
-            {/* Recent Updates */}
+            {/* Popular directions */}
             <div className="pt-4">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-display font-black text-slate-800 uppercase italic tracking-tighter">Популярные направления</h3>
@@ -559,11 +748,20 @@ export const MiniApp = () => {
             { label: 'Современный подход', desc: 'Учим на поп, рок и джаз композициях.', icon: <Music size={20} /> },
             { label: 'Профессиональное оборудование', desc: 'Студийные микрофоны и качественные инструменты.', icon: <Zap size={20} /> },
             { label: 'Творческое комьюнити', desc: 'Участвуйте в концертах и находите единомышленников.', icon: <Users size={20} /> },
+            { label: 'Поддержка 24/7', desc: 'Наш бот-ментор всегда готов помочь с любым вопросом.', icon: <MessageCircle size={20} />, action: () => { 
+                const tg = (window as any).Telegram?.WebApp;
+                if (tg) {
+                  tg.openTelegramLink('https://t.me/UniClubMusicBot');
+                } else {
+                  window.open('https://t.me/UniClubMusicBot', '_blank');
+                }
+              } 
+            },
           ].map((item, i) => (
             <div 
               key={i} 
-              onClick={spawnParticles}
-              className="flex gap-5 items-start p-4 hover:bg-white/50 rounded-2xl transition-colors cursor-pointer active:scale-[0.98]"
+              onClick={(e) => { spawnParticles(e); (item as any).action?.(); }}
+              className={`flex gap-5 items-start p-4 hover:bg-white/50 rounded-2xl transition-colors cursor-pointer active:scale-[0.98] ${(item as any).action ? 'border-2 border-indigo-100 bg-indigo-50/30' : ''}`}
             >
               <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-white flex items-center justify-center border-b-4 border-slate-100 shadow-sm text-[#ce82ff]">
                 {item.icon}
@@ -597,6 +795,12 @@ export const MiniApp = () => {
 
   return (
     <div className="bg-slate-50 min-h-screen flex items-center justify-center p-0 sm:p-4 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+      <AnimatePresence>
+        {showMyCoursesList && renderMyCoursesList()}
+        {showCoursePath && renderCoursePath(showCoursePath)}
+        {activeLesson && <div className="fixed inset-0 z-[100]"><CoursePlayer onBack={() => setActiveLesson(false)} /></div>}
+      </AnimatePresence>
+
       {/* Particles Overlay */}
       <AnimatePresence>
         {particles.map(p => (

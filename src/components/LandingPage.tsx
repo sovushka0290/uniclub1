@@ -62,7 +62,7 @@ const BRAND_CARDS = [
   }
 ];
 
-const BrandCard = ({ card, onClick, onSpawn }: { card: typeof BRAND_CARDS[0], onClick: () => void, onSpawn: (e: React.MouseEvent) => void }) => {
+const BrandCard = ({ card, onClick, onSpawn }: { card: typeof BRAND_CARDS[0], onClick: () => void, onSpawn: (e: React.MouseEvent) => void, key?: React.Key }) => {
   return (
     <motion.div 
       whileHover={{ scale: 1.02 }}
@@ -90,7 +90,7 @@ const BrandCard = ({ card, onClick, onSpawn }: { card: typeof BRAND_CARDS[0], on
   );
 };
 
-const Particle = ({ x, y, angle, color, onComplete }: { x: number, y: number, angle: number, color: string, onComplete: () => void }) => {
+const Particle = ({ x, y, angle, color, onComplete }: { x: number, y: number, angle: number, color: string, onComplete: () => void, key?: React.Key }) => {
   const distance = 25 + Math.random() * 40;
   const targetX = x + Math.cos(angle) * distance;
   const targetY = y + Math.sin(angle) * distance;
@@ -192,11 +192,11 @@ export function LandingPage() {
               </a>
             ))}
             <Link 
-               to="/app" 
+               to="/app"
                onClick={spawnParticles}
                className="ml-4 bg-[#58cc02] border-b-4 border-[#46a302] text-white px-8 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-2 hover:translate-y-[-2px] active:translate-y-[2px] active:border-b-0 transition-all shadow-lg shadow-green-100"
             >
-               <Smartphone className="w-4 h-4" /> ОТКРЫТЬ MINI APP
+               <Smartphone className="w-4 h-4" /> ПОСМОТРЕТЬ MINI APP
             </Link>
           </div>
 
@@ -235,7 +235,7 @@ export function LandingPage() {
                 onClick={spawnParticles}
                 className="duo-btn-primary bg-[#58cc02] border-[#46a302] flex items-center justify-center gap-3 px-8 w-full sm:w-auto"
               >
-                <Smartphone className="w-5 h-5" /> ОТКРЫТЬ MINI APP
+                <Smartphone className="w-5 h-5" /> ПОСМОТРЕТЬ MINI APP
               </Link>
               <a 
                 href="#ecosystem" 
