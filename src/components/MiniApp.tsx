@@ -21,7 +21,12 @@ import {
   Music,
   Smartphone,
   Plus,
-  MessageCircle
+  MessageCircle,
+  Heart,
+  Package,
+  Activity,
+  Headphones,
+  Brain
 } from 'lucide-react';
 
 const COURSES = [
@@ -173,65 +178,64 @@ export const MiniApp = () => {
       className="space-y-8 pb-32"
     >
       {/* Profile Header Card */}
-      <div className="bg-white rounded-[2.5rem] border-b-8 border-slate-100 p-8 text-slate-800 relative overflow-hidden">
-        <div className="relative z-10 flex items-center gap-6 mb-8">
-          <div className="w-24 h-24 rounded-[2rem] bg-[#58cc02] border-b-8 border-[#46a302] flex items-center justify-center text-4xl font-black italic shadow-xl text-white transform -rotate-3 transition-transform hover:rotate-0 cursor-pointer active:scale-90 active:border-b-0 group overflow-hidden" onClick={spawnParticles}>
+      <div className="duo-card p-8 bg-white text-slate-800 relative overflow-hidden flex flex-col items-center text-center">
+        <div className="relative z-10 flex flex-col items-center gap-4 mb-6">
+          <div className="w-24 h-24 rounded-[2rem] bg-[#58cc02] border-b-8 border-[#46a302] flex items-center justify-center text-4xl font-black shadow-lg text-white transform hover:scale-105 transition-transform cursor-pointer overflow-hidden" onClick={spawnParticles}>
             {user?.photo_url ? (
               <img src={user.photo_url} alt="profile" className="w-full h-full object-cover" />
             ) : (
-              <span className="group-hover:animate-pulse">{userProfile.name[0]}</span>
+              <span>{userProfile.name[0]}</span>
             )}
           </div>
           <div>
-            <h2 className="text-2xl font-display font-black leading-none mb-2 italic uppercase text-slate-800 tracking-tighter">{userProfile.fullName}</h2>
-            <div className="flex gap-2">
-              <span className="px-3 py-1 bg-indigo-50 rounded-full text-[9px] font-black uppercase tracking-widest text-indigo-500">
-                LVL {userProfile.level}
+            <h2 className="text-3xl font-display font-black leading-none mb-3 text-slate-800 tracking-tight">{userProfile.fullName}</h2>
+            <div className="flex justify-center gap-2">
+              <span className="px-4 py-1.5 bg-[#e0f2ff] rounded-2xl text-xs font-black uppercase tracking-widest text-[#1cb0f6]">
+                Уровень {userProfile.level}
               </span>
-              <span className="px-3 py-1 bg-amber-50 rounded-full text-[9px] font-black uppercase tracking-widest text-amber-500">
+              <span className="px-4 py-1.5 bg-[#fff9db] rounded-2xl text-xs font-black uppercase tracking-widest text-[#ffc800]">
                 {userProfile.rank}
               </span>
             </div>
           </div>
         </div>
 
-        <div className="duo-progress-bar mb-2">
+        <div className="duo-progress-bar mb-3 w-full">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: '65%' }}
-            className="duo-progress-fill"
+            className="duo-progress-fill bg-[#1cb0f6] border-none"
           />
         </div>
-        <div className="flex justify-between text-[10px] font-black text-slate-300 uppercase tracking-widest px-1">
-          <span>Прогресс уровня</span>
+        <div className="flex justify-between w-full text-xs font-bold text-slate-400 uppercase tracking-widest">
+          <span>Прогресс</span>
           <span>{userProfile.xp}/5000 XP</span>
         </div>
       </div>
 
       {/* Path / Stages */}
-      <div className="space-y-6 px-2">
-        <h3 className="text-xl font-display font-black text-slate-800 uppercase italic tracking-tighter ml-2">Путь Артиста</h3>
-        <div className="relative">
-          {/* Vertical Line */}
-          <div className="absolute left-10 top-0 bottom-0 w-2 bg-slate-100 rounded-full" />
+      <div className="space-y-6">
+        <h3 className="text-2xl font-display font-black text-slate-800 tracking-tight">Достижения</h3>
+        <div className="relative pl-4">
+          <div className="absolute left-11 top-4 bottom-4 w-2 bg-slate-100 rounded-full" />
           
-          <div className="space-y-12 relative z-10">
+          <div className="space-y-8 relative z-10">
             {userProfile.milestones.map((ms, i) => (
-              <div key={i} className="flex items-center gap-8">
+              <div key={i} className="flex items-center gap-6">
                 <div 
                   onClick={spawnParticles}
-                  className={`w-20 h-20 rounded-[2rem] flex items-center justify-center border-b-8 shadow-lg transition-transform active:translate-y-1 active:border-b-0 cursor-pointer
-                  ${ms.completed ? 'bg-[#58cc02] border-[#46a302] text-white' : 
-                    ms.active ? 'bg-[#1cb0f6] border-[#168ec6] text-white animate-bounce' : 
-                    'bg-slate-50 border-slate-200 text-slate-300'}
+                  className={`w-16 h-16 rounded-[2rem] flex items-center justify-center border-2 border-b-[6px] transition-transform hover:scale-105 active:scale-95 active:border-b-2 cursor-pointer
+                  ${ms.completed ? 'bg-[#58cc02] border-[#58cc02] border-b-[#46a302] text-white shadow-sm' : 
+                    ms.active ? 'bg-[#ffc800] border-[#ffc800] border-b-[#e5b400] text-white animate-bounce shadow-sm' : 
+                    'bg-slate-100 border-slate-200 border-b-slate-300 text-slate-300'}
                 `}>
-                  {ms.completed ? <Star size={32} fill="white" /> : <Zap size={32} />}
+                  {ms.completed ? <Star size={28} className="fill-current" /> : <Zap size={28} className={ms.active ? "fill-current" : ""} />}
                 </div>
                 <div>
-                  <h4 className={`text-lg font-black uppercase italic tracking-tighter leading-none mb-1 ${ms.completed || ms.active ? 'text-slate-800' : 'text-slate-300'}`}>
+                  <h4 className={`text-lg font-black tracking-tight leading-none mb-1 text-slate-800`}>
                     Этап {ms.stage}: {ms.title}
                   </h4>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                  <p className={`text-xs font-bold uppercase tracking-widest ${ms.completed ? 'text-[#58cc02]' : ms.active ? 'text-[#ffc800]' : 'text-slate-400'}`}>
                     {ms.completed ? 'Завершено' : ms.active ? 'Текущая цель' : 'Заблокировано'}
                   </p>
                 </div>
@@ -242,29 +246,30 @@ export const MiniApp = () => {
       </div>
 
       {/* Quests Section */}
-      <div className="space-y-4">
-        <div className="flex justify-between items-end px-2">
-          <h3 className="text-xl font-display font-black text-slate-800 uppercase italic tracking-tighter">Ежедневные квесты</h3>
-          <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Обновление через 12ч</span>
+      <div className="space-y-6">
+        <div className="flex justify-between items-end">
+          <h3 className="text-2xl font-display font-black text-slate-800 tracking-tight">Задания</h3>
+          <span className="text-xs font-black text-[#1cb0f6] uppercase tracking-widest bg-[#e0f2ff] px-3 py-1 rounded-2xl">Еще 12ч</span>
         </div>
         <div className="grid grid-cols-1 gap-4">
           {userProfile.quests.map(quest => (
-            <div key={quest.id} className="bg-white border-2 border-b-6 border-slate-100 rounded-[2rem] p-6 flex flex-col gap-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-700">
-                    {React.cloneElement(quest.icon as React.ReactElement, { size: 24 })}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-black text-slate-800 uppercase italic leading-none mb-1">{quest.title}</h4>
-                    <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">+{quest.xp} XP</span>
+            <div key={quest.id} className="duo-card p-6 bg-white flex flex-col gap-5">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-[1.5rem] bg-[#e0f2ff] text-[#1cb0f6] flex items-center justify-center border-2 border-[#1cb0f6] border-b-4">
+                  {React.cloneElement(quest.icon as React.ReactElement, { size: 28 })}
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg font-black text-slate-800 leading-none mb-2 tracking-tight">{quest.title}</h4>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black text-[#ffc800] uppercase tracking-widest">+{quest.xp} XP</span>
+                    <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span className="text-xs font-bold text-slate-400 tracking-widest uppercase">{quest.progress}/{quest.total} Пройдено</span>
                   </div>
                 </div>
-                <span className="text-xs font-black text-slate-300">{quest.progress}/{quest.total}</span>
               </div>
-              <div className="h-3 bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+              <div className="duo-progress-bar">
                 <div 
-                  className="h-full bg-[#1cb0f6] rounded-full transition-all duration-1000"
+                  className="duo-progress-fill"
                   style={{ width: `${(quest.progress / quest.total) * 100}%` }}
                 />
               </div>
@@ -274,25 +279,27 @@ export const MiniApp = () => {
       </div>
 
       {/* Inventory & Assets */}
-      <div className="space-y-4 px-2">
-        <h3 className="text-xl font-display font-black text-slate-800 uppercase italic tracking-tighter">Снаряжение</h3>
-        <div className="grid grid-cols-3 gap-3">
+      <div className="space-y-6">
+        <h3 className="text-2xl font-display font-black text-slate-800 tracking-tight">Инвентарь</h3>
+        <div className="grid grid-cols-3 gap-4">
           {userProfile.inventory.map((item, i) => (
             <div 
               key={i} 
               onClick={spawnParticles}
-              className="aspect-square bg-white border-2 border-b-6 border-slate-100 rounded-3xl p-4 flex flex-col items-center justify-center text-center gap-2 group cursor-pointer hover:scale-105 active:scale-95 active:border-b-0 transition-all"
+              className="aspect-square duo-card bg-white p-4 flex flex-col items-center justify-center text-center gap-3 cursor-pointer group"
             >
-              <div className="text-2xl group-hover:scale-110 transition-transform">📦</div>
-              <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter leading-tight">{item}</span>
+              <div className="text-4xl transform group-hover:scale-110 group-active:scale-95 transition-transform text-[#1cb0f6]">
+                 <Package size={40} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+              </div>
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">{item}</span>
             </div>
           ))}
-        <button 
-          onClick={spawnParticles}
-          className="bg-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center text-center gap-2 group cursor-pointer hover:border-indigo-100 transition-colors"
-        >
-          <Plus size={24} className="text-slate-300 group-hover:text-slate-400" />
-        </button>
+          <button 
+            onClick={spawnParticles}
+            className="aspect-square bg-slate-50 border-2 border-dashed border-slate-300 rounded-[2rem] flex items-center justify-center text-slate-300 hover:bg-slate-100 hover:text-slate-400 transition-colors active:scale-95"
+          >
+            <Plus size={32} />
+          </button>
         </div>
       </div>
     </motion.div>
@@ -302,39 +309,41 @@ export const MiniApp = () => {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="space-y-8 pb-32"
+      className="space-y-6 pb-32"
     >
-      <div className="px-2">
-        <h2 className="text-3xl font-display font-black text-slate-800 leading-tight italic uppercase tracking-tighter mb-2">
-          Тренажеры навыков
+      <div className="mb-8">
+        <h2 className="text-4xl font-display font-black text-slate-800 leading-none tracking-tight mb-3">
+          Игры и Тренажеры
         </h2>
-        <p className="text-sm font-bold text-slate-400 italic">Тренируй навыки и зарабатывай XP</p>
+        <p className="text-base font-bold text-slate-500">Улучшай навыки, играя и получая опыт.</p>
       </div>
       
-      <div className="grid grid-cols-1 gap-6">
+      <div className="space-y-6">
         {[
-          { id: 'rhythm', title: 'Ритм-Мастер', desc: 'Улучшай чувство темпа, попадая в такт.', xp: '+50 XP', color: 'bg-[#e2f5e9]', border: 'border-[#58cc02]', accent: 'text-[#58cc02]', icon: '🥁' },
-          { id: 'ear', title: 'Слухач', desc: 'Угадывай ноты и интервалы на слух.', xp: '+100 XP', color: 'bg-[#e0f2ff]', border: 'border-[#1cb0f6]', accent: 'text-[#1cb0f6]', icon: '👂' },
-          { id: 'focus', title: 'Фокус-Дзен', desc: 'Медитативная игра на концентрацию.', xp: '+30 XP', color: 'bg-[#fff9db]', border: 'border-[#ffc800]', accent: 'text-[#ffc800]', icon: '🧘' },
+          { id: 'rhythm', title: 'Ритм-Мастер', desc: 'Улучшай чувство темпа, попадая в такт.', xp: '+50 XP', color: 'bg-[#e2f5e9]', border: 'border-[#58cc02]', borderColor: 'border-[#46a302]', accent: 'text-[#58cc02]', icon: <Activity size={32} strokeWidth={2.5} /> },
+          { id: 'ear', title: 'Слухач', desc: 'Угадывай ноты и интервалы на слух.', xp: '+100 XP', color: 'bg-[#e0f2ff]', border: 'border-[#1cb0f6]', borderColor: 'border-[#168ec6]', accent: 'text-[#1cb0f6]', icon: <Headphones size={32} strokeWidth={2.5} /> },
+          { id: 'focus', title: 'Фокус-Дзен', desc: 'Медитативная игра на концентрацию.', xp: '+30 XP', color: 'bg-[#fff9db]', border: 'border-[#ffc800]', borderColor: 'border-[#e5b400]', accent: 'text-[#ffc800]', icon: <Brain size={32} strokeWidth={2.5} /> },
         ].map((game) => (
           <div 
             key={game.id} 
             onClick={spawnParticles}
-            className={`${game.color} rounded-[2.5rem] p-8 border-b-8 ${game.border} group cursor-pointer active:translate-y-2 active:border-b-2 shadow-sm transition-all`}
+            className={`${game.color} rounded-[2rem] p-6 border-2 ${game.border} border-b-[8px] ${game.borderColor} group cursor-pointer active:translate-y-[6px] active:border-b-2 transition-all flex flex-col`}
           >
-             <div className="flex justify-between items-start mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="text-4xl group-hover:scale-110 transition-transform">{game.icon}</div>
-                  <h3 className="text-2xl font-display font-black text-slate-800 italic uppercase tracking-tighter">{game.title}</h3>
+             <div className="flex justify-between items-start mb-4">
+                <div className="w-16 h-16 bg-white/50 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 transition-transform shadow-sm">
+                  {game.icon}
                 </div>
-                <span className={`text-[11px] font-black uppercase tracking-widest ${game.accent} bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-100`}>{game.xp}</span>
+                <span className={`text-xs font-black uppercase tracking-widest ${game.accent} bg-white px-4 py-2 rounded-2xl shadow-sm border-2 border-white`}>{game.xp}</span>
              </div>
-             <p className="text-slate-600 text-sm font-bold mb-8 leading-relaxed italic">{game.desc}</p>
+             <div>
+                <h3 className="text-2xl font-display font-black text-slate-800 tracking-tight mb-2">{game.title}</h3>
+                <p className={`text-sm font-bold opacity-80 mb-6 ${game.accent}`}>{game.desc}</p>
+             </div>
              <button 
                 onClick={spawnParticles}
-                className="duo-btn-primary w-full bg-white text-slate-800 border-slate-200"
+                className="duo-btn-secondary w-full border-none shadow-sm group-hover:text-slate-800"
               >
-                Начать тренировку
+                Начать мини-игру
              </button>
           </div>
         ))}
@@ -344,98 +353,99 @@ export const MiniApp = () => {
 
   const renderCourseDetail = (course: typeof COURSES[0]) => (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
+      exit={{ opacity: 0, scale: 0.95 }}
       className="space-y-6 pb-24"
     >
       <button 
         onClick={() => setSelectedCourse(null)}
-        className="flex items-center gap-2 text-indigo-600 font-bold text-xs uppercase tracking-widest mb-4"
+        className="flex items-center gap-2 text-slate-400 font-bold text-sm uppercase tracking-widest mb-2 hover:text-slate-600 transition-colors"
       >
-        <ArrowRight className="w-4 h-4 rotate-180" /> Назад к списку
+        <ChevronLeft className="w-5 h-5" /> Назад
       </button>
 
-      <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 shadow-sm">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-6">
-          <Music size={32} />
+      <div className="duo-card p-8 group">
+        <div className="w-20 h-20 rounded-2xl bg-[#e0f2ff] flex items-center justify-center text-[#1cb0f6] border-2 border-[#1cb0f6] border-b-[6px] mb-6 shadow-sm">
+          <Music size={40} strokeWidth={2.5} />
         </div>
-        <h2 className="text-3xl font-display font-black text-slate-800 mb-2 leading-none uppercase italic">{course.title}</h2>
-        <div className="flex gap-2 mb-6">
-          <span className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black uppercase text-slate-500">{course.category}</span>
-          <span className="px-3 py-1 bg-indigo-50 rounded-full text-[10px] font-black uppercase text-indigo-600">{course.level}</span>
+        <h2 className="text-4xl font-display font-black text-slate-800 mb-3 leading-none tracking-tight">{course.title}</h2>
+        <div className="flex gap-3 mb-6">
+          <span className="px-4 py-1.5 bg-slate-100 rounded-2xl text-xs font-black uppercase text-slate-500 tracking-wider">
+            {course.category}
+          </span>
+          <span className="px-4 py-1.5 bg-[#e0f2ff] rounded-2xl text-xs font-black uppercase text-[#1cb0f6] tracking-wider">
+            {course.level}
+          </span>
         </div>
         
-        <p className="text-slate-600 text-sm leading-relaxed mb-8">
+        <p className="text-slate-600 text-base font-bold leading-relaxed mb-10">
           {course.description}
         </p>
 
-        <div className="space-y-4 mb-8">
-          <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-6">Этапы твоего обучения</h4>
-          <div className="relative space-y-8">
-          {/* Vertical Path */}
-          <div className="absolute left-[19px] top-4 bottom-4 w-1 bg-slate-100 rounded-full" />
-          
-          {(course as any).curriculum?.map((step: any, idx: number) => (
-            <div 
-              key={idx} 
-              onClick={spawnParticles}
-              className="flex gap-5 items-start relative z-10 group cursor-pointer"
-            >
-              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border-b-4 transition-all group-hover:scale-110 active:scale-95 active:border-b-0 ${
-                  step.completed ? 'bg-[#58cc02] border-[#46a302] text-white shadow-lg' : 
-                  step.active ? 'bg-[#1cb0f6] border-[#168ec6] text-white animate-pulse shadow-md' : 
-                  'bg-white border-slate-200 text-slate-300'
-                }`}>
-                  {step.type === 'video' ? <Smartphone size={18} /> : 
-                   step.type === 'quiz' ? <Zap size={18} /> : <BookOpen size={18} />}
+        <div className="space-y-4 mb-10">
+          <h4 className="text-sm font-black uppercase tracking-widest text-[#1cb0f6] mb-6 bg-[#e0f2ff] inline-block px-4 py-2 rounded-2xl">Этапы обучения</h4>
+          <div className="relative space-y-6">
+            <div className="absolute left-[22px] top-6 bottom-6 w-2 bg-slate-100 rounded-full" />
+            
+            {(course as any).curriculum?.map((step: any, idx: number) => (
+              <div 
+                key={idx} 
+                onClick={spawnParticles}
+                className="flex gap-6 items-center relative z-10 group cursor-pointer"
+              >
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 border-2 border-b-[6px] transition-all group-hover:scale-105 active:scale-95 active:border-b-2 ${
+                    step.completed ? 'bg-[#58cc02] border-[#58cc02] border-b-[#46a302] text-white shadow-lg' : 
+                    step.active ? 'bg-[#1cb0f6] border-[#1cb0f6] border-b-[#168ec6] text-white animate-pulse shadow-md' : 
+                    'bg-slate-100 border-slate-200 border-b-slate-300 text-slate-400'
+                  }`}>
+                    {step.type === 'video' ? <Play size={24} className="ml-1" /> : 
+                     step.type === 'quiz' ? <Zap size={24} /> : <BookOpen size={24} />}
                 </div>
-                <div className="flex-1 pt-1 bg-white">
-                  <h5 className={`text-sm font-black uppercase italic leading-none mb-1.5 ${step.completed || step.active ? 'text-slate-800' : 'text-slate-300'}`}>
+                <div className="flex-1 bg-white">
+                  <h5 className={`text-lg font-black leading-none mb-2 tracking-tight ${step.completed || step.active ? 'text-slate-800' : 'text-slate-400'}`}>
                     {step.title}
                   </h5>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
                       {step.duration}
                     </span>
                     {step.completed && (
-                      <span className="text-[9px] font-black text-[#58cc02] uppercase tracking-widest">+50 XP</span>
+                      <span className="text-xs font-black text-[#58cc02] uppercase tracking-wider">+50 XP</span>
                     )}
                   </div>
                 </div>
-                {step.completed && (
-                  <div className="bg-[#58cc02] rounded-full p-1 self-center">
-                    <ChevronRight size={14} fill="white" className="text-white" />
-                  </div>
-                )}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center justify-between p-6 bg-slate-900 rounded-3xl text-white">
-          <div>
-            <p className="text-[10px] font-black uppercase opacity-50 mb-1">
-              {purchasedCourses.includes(course.title) ? 'Разблокировано' : 'Стоимость курса'}
-            </p>
-            <p className="text-xl font-display font-black">
-              {purchasedCourses.includes(course.title) ? 'Бесплатно' : course.price}
-            </p>
+        <div className="pt-8 border-t-2 border-slate-100">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div>
+              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">
+                {purchasedCourses.includes(course.title) ? 'Разблокировано' : 'Стоимость курса'}
+              </p>
+              <p className="text-3xl font-display font-black text-slate-800 tracking-tight">
+                {purchasedCourses.includes(course.title) ? 'Бесплатно' : course.price}
+              </p>
+            </div>
+            
+            <button 
+              onClick={(e) => {
+                spawnParticles(e);
+                if (purchasedCourses.includes(course.title)) {
+                  setShowCoursePath(course.title);
+                } else {
+                  setPurchasedCourses(prev => [...prev, course.title]);
+                  (window as any).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');
+                }
+              }}
+              className="duo-btn-primary w-full mt-4"
+            >
+              {purchasedCourses.includes(course.title) ? 'Открыть уроки' : 'Начать обучение'}
+            </button>
           </div>
-          <button 
-            onClick={(e) => {
-              spawnParticles(e);
-              if (purchasedCourses.includes(course.title)) {
-                setShowCoursePath(course.title);
-              } else {
-                setPurchasedCourses(prev => [...prev, course.title]);
-                (window as any).Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success');
-              }
-            }}
-            className={`${purchasedCourses.includes(course.title) ? 'bg-[#58cc02]' : 'bg-indigo-500'} px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform`}
-          >
-            {purchasedCourses.includes(course.title) ? 'Открыть курс' : 'Купить курс'}
-          </button>
         </div>
       </div>
     </motion.div>
@@ -446,16 +456,16 @@ export const MiniApp = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-[#fcfcfd] overflow-y-auto no-scrollbar pb-32"
+      className="fixed inset-0 z-50 bg-[#f8f9fa] bg-ornament overflow-y-auto no-scrollbar pb-32"
     >
-      <div className="px-6 pt-8 pb-4 flex items-center gap-4 bg-white sticky top-0 z-20 border-b border-slate-50">
-        <button onClick={() => setShowMyCoursesList(false)} className="p-2 text-slate-400">
+      <div className="px-6 pt-8 pb-4 flex items-center gap-4 bg-white sticky top-0 z-20 border-b-2 border-slate-100 shadow-sm">
+        <button onClick={() => setShowMyCoursesList(false)} className="p-3 bg-slate-100 rounded-2xl text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors active:scale-95">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <h2 className="flex-1 text-lg font-black text-slate-800 tracking-tight italic uppercase">Мои уроки</h2>
+        <h2 className="flex-1 text-2xl font-display font-black text-slate-800 tracking-tight text-center relative right-6">Мои уроки</h2>
       </div>
 
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-6">
         {purchasedCourses.length > 0 ? (
           COURSES.filter(c => purchasedCourses.includes(c.title)).map(course => (
             <motion.div 
@@ -464,100 +474,120 @@ export const MiniApp = () => {
               animate={{ scale: 1, opacity: 1 }}
               whileTap={{ scale: 0.98 }}
               onClick={(e) => { spawnParticles(e); setShowCoursePath(course.title); }}
-              className="bg-white border-b-8 border-slate-100 rounded-[2rem] p-6 flex items-center justify-between hover:bg-slate-50 transition-all cursor-pointer active:border-b-0 active:translate-y-2"
+              className="duo-card p-6 flex flex-col hover:bg-slate-50 cursor-pointer bg-white"
             >
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 rounded-2xl bg-[#e2f5e9] flex items-center justify-center text-[#58cc02] shadow-sm">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#e2f5e9] flex items-center justify-center text-[#58cc02] border-2 border-[#58cc02] border-b-4">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <div>
-                  <h4 className="text-lg font-black text-slate-800 leading-none mb-2 uppercase italic tracking-tighter">{course.title}</h4>
-                  <div className="flex items-center gap-3">
-                     <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-[#58cc02] w-1/3" />
-                     </div>
-                     <span className="text-[10px] font-black text-[#58cc02]">33% пройден</span>
-                  </div>
+                <div className="flex-1">
+                  <h4 className="text-2xl font-display font-black text-slate-800 leading-none mb-2 tracking-tight">{course.title}</h4>
+                  <span className="text-xs font-black uppercase text-[#58cc02] tracking-wider bg-[#e2f5e9] px-3 py-1 rounded-xl">Курс начат</span>
                 </div>
               </div>
-              <div className="bg-slate-50 p-3 rounded-2xl text-slate-300">
-                <ArrowRight className="w-5 h-5" />
+              
+              <div className="flex flex-col gap-2">
+                 <div className="flex justify-between text-xs font-bold text-slate-400">
+                    <span>Пройдено 1/4</span>
+                    <span className="text-[#58cc02]">33%</span>
+                 </div>
+                 <div className="duo-progress-bar bg-slate-100 h-4">
+                    <div className="duo-progress-fill w-1/3 border-b-4 border-b-[#46a302]"></div>
+                 </div>
               </div>
             </motion.div>
           ))
         ) : (
-          <div className="text-center py-20">
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">У вас пока нет купленных курсов</p>
+          <div className="mt-20 text-center flex flex-col items-center">
+            <div className="w-32 h-32 rounded-[2rem] bg-slate-100 flex items-center justify-center text-slate-300 mb-6 border-4 border-white shadow-sm">
+                <Music size={64} />
+            </div>
+            <h3 className="text-2xl font-display font-black text-slate-600 mb-2">Здесь пока пусто</h3>
+            <p className="text-slate-400 font-bold max-w-xs px-4">Купите свой первый курс, чтобы начать обучение в нашей академии</p>
+            <button
+               onClick={() => setShowMyCoursesList(false)}
+               className="duo-btn-primary mt-8"
+            >
+                Найти курс
+            </button>
           </div>
         )}
       </div>
     </motion.div>
   );
 
-  const renderCoursePath = (courseTitle: string) => {
-    const course = COURSES.find(c => c.title === courseTitle);
-    if (!course) return null;
-
-    return (
+  const renderCoursePath = (courseTitle: string) => (
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-[#fcfcfd] overflow-y-auto no-scrollbar pb-32"
+        className="fixed inset-0 z-50 bg-[#e0f2ff] bg-ornament overflow-y-auto no-scrollbar"
       >
-        <div className="px-6 pt-8 pb-4 flex items-center gap-4 bg-white sticky top-0 z-20 border-b border-slate-50">
-          <button onClick={() => setShowCoursePath(null)} className="p-2 text-slate-400">
+        <div className="px-6 pt-8 pb-4 flex items-center justify-between bg-white/80 backdrop-blur-xl sticky top-0 z-30 border-b-2 border-[#1cb0f6]/20">
+          <button onClick={() => setShowCoursePath(null)} className="p-3 bg-white border-2 border-slate-200 border-b-[4px] rounded-2xl text-slate-500 hover:text-[#1cb0f6] active:scale-95 transition-all">
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <h2 className="flex-1 text-lg font-black text-slate-800 tracking-tight italic uppercase">{courseTitle}</h2>
-          <div className="flex items-center gap-1 text-[#ffc800]">
-            <Star className="w-5 h-5 fill-current" />
-            <span className="font-black text-sm">33%</span>
+          <div className="flex-1 text-center px-4">
+              <h2 className="text-xl font-display font-black text-slate-800 tracking-tight leading-none">{courseTitle}</h2>
+          </div>
+          <div className="p-3 bg-white border-2 border-slate-200 border-b-[4px] rounded-2xl flex items-center gap-1 text-[#ffc800]">
+            <Heart size={20} className="fill-[#ffc800]" />
+            <span className="font-black">5</span>
           </div>
         </div>
 
-        <div className="relative py-12 flex flex-col items-center">
-          {/* Winding Path SVG Line */}
-          <svg className="absolute top-0 w-full h-[1200px] pointer-events-none opacity-10">
+        <div className="relative py-16 flex flex-col items-center min-h-[1200px] bg-[#e0f2ff]">
+          {/* SVG Winding Path background */}
+          <svg className="absolute top-0 w-full h-[1200px] pointer-events-none opacity-20">
             <path 
-              d="M 200 0 Q 350 150 200 300 T 200 600 T 200 900 T 200 1200" 
+              d="M 200 0 Q 300 150 200 300 T 200 600 T 200 900 T 200 1200" 
               fill="none" 
               stroke="#1cb0f6" 
-              strokeWidth="12" 
+              strokeWidth="24" 
               strokeLinecap="round"
+              className="path-line"
             />
           </svg>
 
-          <div className="space-y-24 relative z-10 w-full px-12">
+          <div className="space-y-[4.5rem] relative z-10 w-full px-6 flex flex-col">
             {[
-              { title: 'Введение', type: 'video', completed: true, x: '20%' },
-              { title: 'Гармония', type: 'quiz', completed: true, x: '70%', active: true },
-              { title: 'Теория I', type: 'video', completed: false, x: '30%' },
-              { title: 'Практика', type: 'video', completed: false, x: '80%' },
-              { title: 'Экзамен', type: 'quiz', completed: false, x: '40%' },
-              { title: 'ДЗ Админу', type: 'homework', completed: false, x: '50%' },
+              { title: 'Введение', type: 'video', completed: true, align: 'self-center' },
+              { title: 'Гармония', type: 'quiz', completed: true, active: false, align: 'self-start ml-8' },
+              { title: 'Теория I', type: 'video', completed: false, active: true, align: 'self-end mr-8' },
+              { title: 'Практика', type: 'video', completed: false, align: 'self-center' },
+              { title: 'Экзамен', type: 'quiz', completed: false, align: 'self-start ml-12' },
+              { title: 'ДЗ Админу', type: 'homework', completed: false, align: 'self-center' },
             ].map((node, i) => (
               <div 
                 key={i}
-                className="flex flex-col items-center gap-3"
-                style={{ marginLeft: node.x }} 
+                className={`flex flex-col items-center gap-3 relative ${node.align}`}
               >
+                {node.active && (
+                   <motion.div 
+                     animate={{ y: [0, -10, 0] }}
+                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                     className="absolute -top-12 bg-white px-4 py-2 rounded-2xl border-2 border-[#1cb0f6] text-[#1cb0f6] font-black uppercase tracking-widest text-xs z-10 shadow-lg"
+                   >
+                     Начать!
+                     <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-[#1cb0f6] rotate-45" />
+                   </motion.div>
+                )}
                 <motion.div 
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     if (node.type === 'homework') {
                        window.open('https://t.me/UniClubMusicBot', '_blank');
-                    } else {
+                    } else if (node.completed || node.active) {
                        setActiveLesson(true);
                     }
                   }}
-                  className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center relative cursor-pointer border-b-8 active:border-b-0 active:translate-y-2 transition-all ${
+                  className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center relative cursor-pointer border-2 border-b-[8px] transition-all ${
                     node.completed 
-                      ? 'bg-[#58cc02] border-[#46a302] text-white shadow-[0_10px_20px_rgba(88,204,2,0.3)]' 
+                      ? 'bg-[#58cc02] border-[#58cc02] border-b-[#46a302] text-white shadow-lg' 
                       : node.active 
-                        ? 'bg-[#1cb0f6] border-[#168ec6] text-white animate-bounce shadow-[0_10px_20px_rgba(28,176,246,0.3)]'
-                        : 'bg-white border-slate-200 text-slate-300'
+                        ? 'bg-[#1cb0f6] border-[#1cb0f6] border-b-[#168ec6] text-white shadow-[0_10px_30px_rgba(28,176,246,0.3)]'
+                        : 'bg-white border-slate-200 border-b-slate-300 text-slate-300'
                   }`}
                 >
                   {node.completed ? <CheckCircle2 className="w-10 h-10" /> : (
@@ -566,12 +596,16 @@ export const MiniApp = () => {
                     <Zap className="w-10 h-10 fill-current" />
                   )}
                   
-                  {/* Lesson Number floating badge */}
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-[10px] font-black italic shadow-lg ring-4 ring-white">
+                  {/* Floating badge */}
+                  <div className={`absolute -right-2 -bottom-2 w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-black shadow-sm ${
+                    node.completed ? 'bg-white text-[#58cc02] border-[#58cc02]' :
+                    node.active ? 'bg-white text-[#1cb0f6] border-[#1cb0f6]' :
+                    'bg-white text-slate-400 border-slate-200'
+                  }`}>
                     {i + 1}
                   </div>
                 </motion.div>
-                <span className={`text-[11px] font-black uppercase tracking-tight italic ${node.completed || node.active ? 'text-slate-800' : 'text-slate-300'}`}>
+                <span className={`text-[13px] font-black tracking-tight ${node.completed || node.active ? 'text-slate-800' : 'text-slate-400'}`}>
                   {node.title}
                 </span>
               </div>
@@ -580,7 +614,6 @@ export const MiniApp = () => {
         </div>
       </motion.div>
     );
-  };
 
   const renderHome = () => (
     <motion.div 
@@ -593,21 +626,21 @@ export const MiniApp = () => {
           <>
             {/* Search Bar */}
             <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input 
                 type="text" 
-                placeholder="Найти курс или учителя..."
-                className="w-full bg-white border-2 border-b-4 border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-indigo-200 transition-colors font-bold"
+                placeholder="Искать курсы или учителей..."
+                className="w-full bg-slate-100/50 border-2 border-slate-200 border-b-[4px] rounded-2xl py-4 pl-12 pr-4 text-base focus:outline-none focus:border-[#1cb0f6] focus:border-b-[#1cb0f6] transition-colors font-bold text-slate-700 placeholder:text-slate-400"
               />
             </div>
 
             {/* Hero Mini Section */}
-            <div className={`rounded-[2.5rem] p-8 border-b-8 relative overflow-hidden group ${purchasedCourses.length > 0 ? 'bg-[#e2f5e9] border-[#58cc02]' : 'bg-[#e0f2ff] border-[#1cb0f6]'}`}>
-              <div className="relative z-10">
-                <h2 className={`text-3xl font-display font-black leading-tight mb-2 italic uppercase tracking-tighter ${purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'}`}>
+            <div className={`duo-card p-8 relative overflow-hidden group ${purchasedCourses.length > 0 ? 'bg-[#e2f5e9] border-[#58cc02] border-b-[8px]' : 'bg-[#e0f2ff] border-[#1cb0f6] border-b-[8px]'}`}>
+              <div className="relative z-10 flex flex-col items-start">
+                <h2 className={`text-4xl font-display font-black leading-none mb-3 tracking-tight ${purchasedCourses.length > 0 ? 'text-[#46a302]' : 'text-[#168ec6]'}`}>
                   {purchasedCourses.length > 0 ? 'Мои\nуроки' : 'Твой путь\nв музыке'}
                 </h2>
-                <p className="text-slate-500 text-xs font-bold mb-6 max-w-[160px]">
+                <p className={`text-sm font-bold mb-6 max-w-[170px] ${purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'}`}>
                   {purchasedCourses.length > 0 ? 'Продолжи свое обучение сегодня!' : 'Запишись на первое пробное занятие бесплатно.'}
                 </p>
                 <button 
@@ -619,21 +652,21 @@ export const MiniApp = () => {
                       setActiveTab('home'); 
                     }
                   }}
-                  className={`duo-btn-primary bg-white border-slate-200 text-slate-800`}
+                  className={`duo-btn-secondary ${purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'}`}
                 >
                   {purchasedCourses.length > 0 ? 'Мои уроки' : 'Записаться'}
                 </button>
               </div>
-              <div className="absolute -right-4 -bottom-4 opacity-20 transform group-hover:scale-110 transition-transform duration-700">
-                <Music size={140} strokeWidth={1} className={purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'} />
+              <div className="absolute -right-6 -bottom-6 opacity-20 transform group-hover:scale-110 transition-transform duration-700">
+                <Music size={160} strokeWidth={2} className={purchasedCourses.length > 0 ? 'text-[#58cc02]' : 'text-[#1cb0f6]'} />
               </div>
             </div>
 
         <div className="grid grid-cols-2 gap-4">
           {[
-            { icon: <BookOpen />, label: 'Курсы', color: 'bg-[#e0f2ff]', border: 'border-[#1cb0f6]', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('home') },
-            { icon: <Users />, label: 'Учителя', color: 'bg-[#f3e8ff]', border: 'border-[#ce82ff]', iconColor: 'text-[#ce82ff]', action: () => { spawnParticles({ currentTarget: document.body } as any); } },
-            { icon: <MessageCircle />, label: 'Чат-бот', color: 'bg-[#e2f5e9]', border: 'border-[#58cc02]', iconColor: 'text-[#58cc02]', action: () => { 
+            { icon: <BookOpen />, label: 'Курсы', color: 'bg-[#e0f2ff]', border: 'border-[#1cb0f6] border-b-[6px]', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('home') },
+            { icon: <Users />, label: 'Учителя', color: 'bg-[#f3e8ff]', border: 'border-[#ce82ff] border-b-[6px]', iconColor: 'text-[#ce82ff]', action: () => { spawnParticles({ currentTarget: document.body } as any); } },
+            { icon: <MessageCircle />, label: 'Чат-бот', color: 'bg-[#e2f5e9]', border: 'border-[#58cc02] border-b-[6px]', iconColor: 'text-[#58cc02]', action: () => { 
                 const tg = (window as any).Telegram?.WebApp;
                 if (tg) {
                   tg.openTelegramLink('https://t.me/UniClubMusicBot');
@@ -642,44 +675,40 @@ export const MiniApp = () => {
                 }
               } 
             },
-            { icon: <Zap />, label: 'Тарифы', color: 'bg-white', border: 'border-slate-200', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('tariffs') },
+            { icon: <Zap />, label: 'Тарифы', color: 'bg-white', border: 'border-slate-200 border-b-[6px]', iconColor: 'text-[#1cb0f6]', action: () => setActiveTab('tariffs') },
           ].map((item, i) => (
             <div 
               key={i} 
               onClick={(e) => { spawnParticles(e); item.action(); }}
-              className={`${item.color} border-b-4 ${item.border} rounded-[2rem] p-6 flex flex-col items-center gap-3 cursor-pointer hover:scale-[1.02] active:scale-95 active:border-b-0 transition-all`}
+              className={`${item.color} border-2 ${item.border} rounded-3xl p-5 flex flex-col justify-center items-center gap-3 cursor-pointer hover:scale-[1.02] active:scale-95 active:translate-y-[4px] active:border-b-2 transition-all`}
             >
-              <div className={item.iconColor}>{React.cloneElement(item.icon as React.ReactElement, { size: 32, strokeWidth: 2.5 })}</div>
-              <span className="text-[11px] font-black uppercase tracking-widest text-slate-700">{item.label}</span>
+              <div className={item.iconColor}>{React.cloneElement(item.icon as React.ReactElement, { size: 36, strokeWidth: 2.5 })}</div>
+              <span className="text-xs font-black uppercase tracking-widest text-slate-700">{item.label}</span>
             </div>
           ))}
         </div>
 
             {/* Popular directions */}
-            <div className="pt-4">
+            <div className="pt-6">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-display font-black text-slate-800 uppercase italic tracking-tighter">Популярные направления</h3>
-                <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest px-3 py-1 bg-indigo-50 rounded-full">Все</span>
+                <h3 className="text-2xl font-display font-black text-slate-800 tracking-tight">Популярное</h3>
+                <span className="text-xs font-black text-[#1cb0f6] uppercase tracking-widest px-4 py-2 bg-[#e0f2ff] rounded-2xl cursor-pointer hover:opacity-80 active:scale-95">Все</span>
               </div>
               <div className="space-y-4">
                 {COURSES.map(course => (
                   <div 
                     key={course.id} 
                     onClick={(e) => { spawnParticles(e); setSelectedCourse(course); }}
-                    className="bg-white border-2 border-b-4 border-slate-100 rounded-[2rem] p-5 flex items-center justify-between hover:border-slate-200 transition-all cursor-pointer active:translate-y-1 active:border-b-0"
+                    className="duo-card p-5 flex items-center justify-between hover:bg-slate-50 cursor-pointer"
                   >
-                    <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center border-2 border-slate-100/50">
-                        <Music className="w-6 h-6 text-[#1cb0f6]" />
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-[#e0f2ff] flex items-center justify-center text-[#1cb0f6] border-2 border-[#1cb0f6] border-b-4">
+                        <Music className="w-8 h-8" />
                       </div>
                       <div>
-                        <h4 className="text-base font-black text-slate-800 leading-none mb-1.5 uppercase italic tracking-tighter">{course.title}</h4>
-                        <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">{course.category} • {course.level}</p>
+                        <h4 className="text-xl font-display font-black text-slate-800 leading-none mb-1.5 tracking-tight">{course.title}</h4>
+                        <p className="text-xs text-slate-500 font-bold tracking-wide">{course.category} • {course.level}</p>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-black text-[#58cc02]">{course.price}</p>
-                      <span className="text-[10px] text-slate-300 font-black uppercase">{course.duration}</span>
                     </div>
                   </div>
                 ))}
@@ -695,32 +724,34 @@ export const MiniApp = () => {
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="space-y-8 pb-24"
+      className="space-y-6 pb-24"
     >
-       <h2 className="text-4xl font-display font-black text-slate-800 leading-tight italic uppercase tracking-tighter">
-        Наши <br />Тарифы
+       <h2 className="text-4xl font-display font-black text-slate-800 leading-none tracking-tight mb-2">
+        Наши Подписки
       </h2>
+      <p className="text-sm font-bold text-slate-500 mb-8">Выбери тариф, который подходит именно тебе.</p>
+
       <div className="space-y-6">
         {TARIFFS.map((tariff, i) => (
-          <div key={i} className={`border-2 border-b-8 border-slate-100 rounded-[2.5rem] p-8 shadow-sm relative overflow-hidden transition-all hover:border-indigo-100 ${tariff.color}`}>
-            <div className="flex justify-between items-start mb-6 relative z-10">
-              <h3 className="text-2xl font-display font-black text-slate-800 italic uppercase tracking-tighter">
+          <div key={i} className={`duo-card p-8 relative overflow-hidden transition-all ${tariff.color === 'bg-white' ? 'bg-white border-slate-200' : 'bg-[#e0f2ff] border-[#1cb0f6] border-b-[8px]'}`}>
+            <div className="flex justify-between items-center mb-6 relative z-10">
+              <h3 className={`text-3xl font-display font-black tracking-tight ${tariff.color === 'bg-white' ? 'text-slate-800' : 'text-[#168ec6]'}`}>
                 {tariff.name}
               </h3>
-              <p className="text-sm font-black text-[#58cc02] bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-50">
+              <p className="text-sm font-black text-slate-600 bg-white px-4 py-2 rounded-2xl border-2 border-slate-100 shadow-sm">
                 {tariff.price}
               </p>
             </div>
-            <ul className="space-y-3 mb-8 relative z-10">
+            <ul className="space-y-4 mb-8 relative z-10">
               {tariff.features.map((f, j) => (
-                <li key={j} className="text-sm text-slate-600 flex items-center gap-3 font-bold italic">
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-300" /> {f}
+                <li key={j} className="text-sm text-slate-700 flex items-center gap-3 font-bold">
+                  <CheckCircle2 size={20} className={tariff.color === 'bg-white' ? 'text-slate-300' : 'text-[#1cb0f6]'} /> {f}
                 </li>
               ))}
             </ul>
             <button 
               onClick={spawnParticles}
-              className="duo-btn-primary w-full bg-slate-900 border-slate-700 text-white leading-none"
+              className={tariff.color === 'bg-white' ? 'duo-btn-secondary w-full' : 'duo-btn-blue w-full'}
             >
               Выбрать план
             </button>
@@ -794,7 +825,7 @@ export const MiniApp = () => {
   );
 
   return (
-    <div className="bg-slate-50 min-h-screen flex items-center justify-center p-0 sm:p-4 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="bg-slate-50 bg-ornament min-h-screen flex items-center justify-center p-0 sm:p-4 font-sans selection:bg-indigo-100 selection:text-indigo-900">
       <AnimatePresence>
         {showMyCoursesList && renderMyCoursesList()}
         {showCoursePath && renderCoursePath(showCoursePath)}

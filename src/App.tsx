@@ -2,12 +2,16 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import { MiniApp } from './components/MiniApp';
+import EcosystemPortal from './components/EcosystemPortal';
 import { useTelegram } from './hooks/useTelegram';
 import { Smartphone } from 'lucide-react';
 
 const TMAGuard = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
+
+import ProductionPage from './components/ProductionPage';
+import FanClubPage from './components/FanClubPage';
 
 export default function App() {
   const { isTMA } = useTelegram();
@@ -18,6 +22,18 @@ export default function App() {
         <Routes>
           <Route 
             path="/" 
+            element={<EcosystemPortal />} 
+          />
+          <Route 
+            path="/production" 
+            element={<ProductionPage />} 
+          />
+          <Route 
+            path="/fanclub" 
+            element={<FanClubPage />} 
+          />
+          <Route 
+            path="/academy" 
             element={<LandingPage />} 
           />
           <Route 

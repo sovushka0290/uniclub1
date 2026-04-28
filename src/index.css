@@ -1,46 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@800;900&family=Space+Grotesk:wght@700&family=Playfair+Display:ital,wght@0,900;1,900&family=Pacifico&family=Bebas+Neue&family=Caveat:wght@700&family=Syne:wght@800&family=Montserrat:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
-  --font-accent: "Space Grotesk", sans-serif;
+  --font-sans: "Nunito", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito", sans-serif;
+  --font-accent: "Outfit", sans-serif;
   
-  /* Greeting Font Varieties */
-  --font-serif: "Playfair Display", serif;
-  --font-script: "Pacifico", cursive;
-  --font-bebas: "Bebas Neue", sans-serif;
-  --font-caveat: "Caveat", cursive;
-  --font-syne: "Syne", sans-serif;
-  --font-montserrat: "Montserrat", sans-serif;
-  
-  --color-primary: #6366f1; /* indigo-500 */
+  --color-primary: #58cc02;
   --color-duo-green: #58cc02;
+  --color-duo-green-dark: #46a302;
   --color-duo-blue: #1cb0f6;
+  --color-duo-blue-dark: #168ec6;
   --color-duo-yellow: #ffc800;
   --color-duo-purple: #ce82ff;
   --color-duo-red: #ff4b4b;
 }
 
+/* Base ornament background */
+.bg-ornament {
+  background-color: #f8fafc;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23334155' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' opacity='0.05'%3E%3Cpath d='M 40 20 C 55 20, 65 30, 60 40 C 55 50, 45 45, 45 35 C 45 25, 55 25, 55 35' /%3E%3Cpath d='M 40 20 C 25 20, 15 30, 20 40 C 25 50, 35 45, 35 35 C 35 25, 25 25, 25 35' /%3E%3Cpath d='M 40 60 C 55 60, 65 50, 60 40 C 55 30, 45 35, 45 45 C 45 55, 55 55, 55 45' /%3E%3Cpath d='M 40 60 C 25 60, 15 50, 20 40 C 25 30, 35 35, 35 45 C 35 55, 25 55, 25 45' /%3E%3Cpath d='M 40 20 V 60' /%3E%3Cpath d='M 20 40 H 60' /%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
 /* Duolingo Style UI */
 .duo-card {
-  @apply rounded-[2rem] border-b-4 transition-all duration-100 active:translate-y-1 active:border-b-0;
+  @apply rounded-3xl border-2 border-b-[6px] transition-all duration-150 active:translate-y-[4px] active:border-b-2;
 }
 
 .duo-btn-primary {
-  @apply bg-[#58cc02] border-b-4 border-[#46a302] text-white rounded-2xl font-black uppercase tracking-widest active:translate-y-1 active:border-b-0 transition-all px-6 py-3;
+  @apply bg-[#58cc02] border-2 border-[#58cc02] border-b-[6px] border-b-[#46a302] text-white rounded-2xl font-bold uppercase tracking-widest active:translate-y-[4px] active:border-b-2 transition-all px-6 py-4 flex items-center justify-center gap-2;
 }
 
 .duo-btn-secondary {
-  @apply bg-white border-2 border-b-4 border-slate-200 text-slate-400 rounded-2xl font-black uppercase tracking-widest active:translate-y-1 active:border-b-0 transition-all px-6 py-3 hover:bg-slate-50;
+  @apply bg-white border-2 border-slate-200 border-b-[6px] border-b-slate-300 text-slate-500 rounded-2xl font-bold uppercase tracking-widest active:translate-y-[4px] active:border-b-2 transition-all px-6 py-4 flex items-center justify-center gap-2 hover:bg-slate-50;
+}
+
+.duo-btn-blue {
+  @apply bg-[#1cb0f6] border-2 border-[#1cb0f6] border-b-[6px] border-b-[#168ec6] text-white rounded-2xl font-bold uppercase tracking-widest active:translate-y-[4px] active:border-b-2 transition-all px-6 py-4 flex items-center justify-center gap-2;
 }
 
 .duo-progress-bar {
-  @apply h-4 bg-slate-100 rounded-full overflow-hidden border-2 border-slate-100;
+  @apply h-5 bg-slate-200 rounded-full overflow-hidden border-2 border-slate-200;
 }
 
 .duo-progress-fill {
-  @apply h-full bg-[#58cc02] rounded-full border-b-4 border-[#46a302];
+  @apply h-full bg-[#ffc800] rounded-full border-t border-t-white/40;
+}
+
+/* Winding Path SVGs */
+.path-line {
+  stroke-dasharray: 20 15;
+  animation: dash 100s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
 }
 
 /* Flip Card Styles */
