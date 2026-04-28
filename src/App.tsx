@@ -22,7 +22,7 @@ export default function App() {
         <Routes>
           <Route 
             path="/" 
-            element={isTMA ? <Navigate to="/app" replace /> : <EcosystemPortal />} 
+            element={<EcosystemPortal />} 
           />
           <Route 
             path="/production" 
@@ -38,11 +38,7 @@ export default function App() {
           />
           <Route 
             path="/app" 
-            element={
-              <TMAGuard>
-                <MiniApp />
-              </TMAGuard>
-            } 
+            element={<MiniApp />} 
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

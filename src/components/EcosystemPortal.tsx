@@ -16,7 +16,7 @@ export default function EcosystemPortal() {
       desc: 'Онлайн-курсы, вокал, продюсирование. Интерактивная платформа обучения.',
       icon: <GraduationCap size={56} strokeWidth={1.5} />,
       btnText: 'Платформа',
-      link: isTMA ? '/app' : '/academy',
+      link: '/academy',
       hoverBg: 'bg-[#fff9db]',
       activeColor: 'text-[#ffc800]',
       darkColor: 'text-[#e5b400]',
