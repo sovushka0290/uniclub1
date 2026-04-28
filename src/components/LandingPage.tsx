@@ -163,7 +163,7 @@ export function LandingPage() {
     <div className="min-h-screen bg-white selection:bg-indigo-100 selection:text-indigo-900 font-sans">
       <AnimatePresence>
         {particles.map(p => (
-          <Particle key={p.id} x={p.x} y={p.y} angle={p.angle} color={p.color} onComplete={() => removeParticle(p.id)} />
+          <Particle key={p.id} x={p.x} y={p.y} angle={p.angle} color={p.color} icon={p.icon} onComplete={() => removeParticle(p.id)} />
         ))}
       </AnimatePresence>
 

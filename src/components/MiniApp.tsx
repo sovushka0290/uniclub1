@@ -577,7 +577,11 @@ export const MiniApp = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     if (node.type === 'homework') {
-                       window.open('https://t.me/UniClubMusicBot', '_blank');
+                       if ((window as any).Telegram?.WebApp) {
+                         (window as any).Telegram.WebApp.openTelegramLink('https://t.me/UniClubMusicBot');
+                       } else {
+                         window.open('https://t.me/UniClubMusicBot', '_blank');
+                       }
                     } else if (node.completed || node.active) {
                        setActiveLesson(true);
                     }

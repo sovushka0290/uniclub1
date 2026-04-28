@@ -119,6 +119,7 @@ export default function CoursePlayer({ onBack }: { onBack: () => void }) {
                       src="https://images.unsplash.com/photo-1520529612392-628d6978170c?q=80&w=2070" 
                       className="absolute inset-0 w-full h-full object-cover opacity-60"
                       alt="Thumbnail"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-indigo-900/20" />
                     <motion.button 

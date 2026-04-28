@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import { MiniApp } from './components/MiniApp';
 import EcosystemPortal from './components/EcosystemPortal';
@@ -22,7 +22,7 @@ export default function App() {
         <Routes>
           <Route 
             path="/" 
-            element={<EcosystemPortal />} 
+            element={isTMA ? <Navigate to="/app" replace /> : <EcosystemPortal />} 
           />
           <Route 
             path="/production" 

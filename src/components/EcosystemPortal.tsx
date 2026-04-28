@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { GraduationCap, Mic2, Users, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { useTelegram } from '../hooks/useTelegram';
 
 export default function EcosystemPortal() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const { isTMA } = useTelegram();
 
   const CARDS = [
     {
@@ -12,7 +16,7 @@ export default function EcosystemPortal() {
       desc: 'Онлайн-курсы, вокал, продюсирование. Интерактивная платформа обучения.',
       icon: <GraduationCap size={56} strokeWidth={1.5} />,
       btnText: 'Платформа',
-      link: '/academy',
+      link: isTMA ? '/app' : '/academy',
       hoverBg: 'bg-[#fff9db]',
       activeColor: 'text-[#ffc800]',
       darkColor: 'text-[#e5b400]',
@@ -57,9 +61,9 @@ export default function EcosystemPortal() {
         const isOtherHovered = hoveredCard !== null && hoveredCard !== card.id;
 
         return (
-          <a
+          <Link
             key={card.id}
-            href={card.link}
+            to={card.link}
             onMouseEnter={() => setHoveredCard(card.id)}
             onMouseLeave={() => setHoveredCard(null)}
             className={`
@@ -103,7 +107,7 @@ export default function EcosystemPortal() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         );
       })}
     </div>

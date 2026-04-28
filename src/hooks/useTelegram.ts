@@ -4,14 +4,24 @@ import { TelegramWebApp, TelegramUser } from '../types';
 export function useTelegram() {
   const [tg, setTg] = useState<TelegramWebApp | null>(null);
   const [user, setUser] = useState<TelegramUser | null>(null);
+  const [isTMA, setIsTMA] = useState(false);
 
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      const webApp = window.Telegram.WebApp;
-      webApp.ready();
-      webApp.expand();
-      setTg(webApp);
-      setUser(webApp.initDataUnsafe?.user || null);
+    const checkTMA = () => {
+      if (window.Telegram?.WebApp) {
+        const webApp = window.Telegram.WebApp;
+        webApp.ready();
+        webApp.expand();
+        setTg(webApp);
+        setUser(webApp.initDataUnsafe?.user || null);
+        setIsTMA(true);
+      }
+    };
+
+    checkTMA();
+    // Fallback search param check
+    if (window.location.search.includes('tgWebApp')) {
+      setIsTMA(true);
     }
   }, []);
 
@@ -23,6 +33,6 @@ export function useTelegram() {
     tg,
     user,
     onClose,
-    isTMA: !!window.Telegram?.WebApp?.initData,
+    isTMA,
   };
 }
